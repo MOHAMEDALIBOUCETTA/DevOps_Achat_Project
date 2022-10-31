@@ -15,8 +15,8 @@
 	<description>Projet pour le module DevOps</description>
 	<properties>
 		<java.version>1.8</java.version>
-		<maven.compiler.target>3.1.0</maven.compiler.target>
-		<maven.compiler.source>3.1.0</maven.compiler.source>
+		<maven.compiler.target>3.2.0</maven.compiler.target>
+		<maven.compiler.source>3.2.0</maven.compiler.source>
 	</properties>
 	<dependencies>
 		<dependency>
