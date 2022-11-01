@@ -1,17 +1,17 @@
 pipeline {
   agent any
   stages {
-    stage('log versions') {
+    stage('Log Tool Version') {
       parallel {
-        stage('log versions') {
+        stage('Log Tool Version') {
           steps {
-            sh '''git --version
-mvn --version
-java -version '''
+            sh '''mvn --version
+git --version
+java -version'''
           }
         }
 
-        stage('Maven POM Check') {
+        stage('Check for POM') {
           steps {
             fileExists 'pom.xml'
           }
@@ -20,22 +20,17 @@ java -version '''
       }
     }
 
-    stage('Build App') {
+    stage('Build with Maven') {
       steps {
-        pwd()
-        sh 'mvn clean install'
+        sh 'mvn compile test package'
       }
     }
 
-    stage('Finalize') {
+    stage('Post Build Steps') {
       steps {
-        writeFile(file: 'complete.txt', text: 'We completed it!')
-        timeout(time: 200) {
-          archiveArtifacts '*.*'
-        }
-
+        writeFile(file: 'status.txt', text: 'Hey it worked!!!')
       }
     }
 
   }
-}
+}fast/spock-lizard-docker: Rock Paper Scissors with Docker Stuffspock-lizard-docker/Jenkinsfile at master · learn-devops-fast/spock-lizard-docker
