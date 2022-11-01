@@ -8,7 +8,6 @@ pipeline {
             sh '''git --version
 mvn --version
 java -version
-ant -version'''
           }
         }
 
