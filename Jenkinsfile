@@ -34,13 +34,10 @@ java -version'''
                            }
 
                     }
-                    stage('Test'){
-                                steps {
-
-                                sh "mvn test"
-                                   }
-
-                            }
+                    stage("Build") {
+                          steps {
+                            sh 'mvn -v'
+                          }
 
     stage('Post Build Steps') {
       steps {
