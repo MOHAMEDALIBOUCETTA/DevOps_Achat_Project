@@ -32,6 +32,12 @@ java -version'''
       }
     }
 
+    stage('Maven Test') {
+      steps {
+        sh 'mvn test'
+      }
+    }
+
     stage('Post Build Steps') {
       steps {
         writeFile(file: 'status.txt', text: 'Hey it worked!!!')
