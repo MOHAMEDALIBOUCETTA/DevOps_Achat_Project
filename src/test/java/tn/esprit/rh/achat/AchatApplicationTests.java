@@ -16,30 +16,13 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+
 @SpringBootTest
 class AchatApplicationTests {
 
 
     @Test
     void contextLoads() {
-    }
-
-    @Mock
-    private CategorieProduitRepository categorieProduitRepository;
-
-    @InjectMocks
-    private CategorieProduitServiceImpl categorieProduitService;
-
-    @Test
-    @Rollback(value = false)
-    public void whenSaveUser_shouldReturnProduct(){
-        CategorieProduit categorieProduit = new CategorieProduit();
-        categorieProduit.setCodeCategorie("Test Code");
-        when(categorieProduitRepository.save(ArgumentMatchers.any(CategorieProduit.class))).thenReturn(categorieProduit);
-        CategorieProduit created = categorieProduitService.addCategorieProduit(categorieProduit);
-        assertThat(created.getCodeCategorie()).isSameAs(categorieProduit.getCodeCategorie());
-        verify(categorieProduitRepository).save(categorieProduit);
     }
 
 }

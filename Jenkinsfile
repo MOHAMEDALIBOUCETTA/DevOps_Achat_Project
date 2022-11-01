@@ -20,11 +20,27 @@ java -version'''
       }
     }
 
-    stage('Build with Maven') {
-      steps {
-        sh 'mvn compile test package'
-      }
-    }
+    stage('Clean'){
+                steps {
+
+                sh "mvn clean"
+                   }
+
+            }
+            stage('Compile'){
+                        steps {
+
+                        sh "mvn compile"
+                           }
+
+                    }
+                    stage('Test'){
+                                steps {
+
+                                sh "mvn test"
+                                   }
+
+                            }
 
     stage('Post Build Steps') {
       steps {
@@ -33,4 +49,4 @@ java -version'''
     }
 
   }
-}fast/spock-lizard-docker: Rock Paper Scissors with Docker Stuffspock-lizard-docker/Jenkinsfile at master · learn-devops-fast/spock-lizard-docker
+}
