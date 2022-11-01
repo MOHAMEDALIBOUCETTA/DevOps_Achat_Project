@@ -1,17 +1,18 @@
 pipeline {
   agent any
   stages {
-    stage('Log Tool Version') {
+    stage('log versions') {
       parallel {
-        stage('Log Tool Version') {
+        stage('log versions') {
           steps {
-            sh '''mvn --version
-git --version
-java -version'''
+            sh '''git --version
+mvn --version
+java -version
+ant -version'''
           }
         }
 
-        stage('Check for POM') {
+        stage('Maven POM Check') {
           steps {
             fileExists 'pom.xml'
           }
@@ -20,15 +21,20 @@ java -version'''
       }
     }
 
-    stage('Build with Maven') {
+    stage('Build App') {
       steps {
-        sh 'mvn compile test package'
+        pwd()
+        sh 'mvn clean install'
       }
     }
 
-    stage('Post Build Steps') {
+    stage('Finalize') {
       steps {
-        writeFile(file: 'status.txt', text: 'Hey it worked!!!')
+        writeFile(file: 'complete.txt', text: 'We completed it!')
+        timeout(time: 200) {
+          archiveArtifacts '*.*'
+        }
+
       }
     }
 
