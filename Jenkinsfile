@@ -6,8 +6,8 @@ pipeline {
         stage('Log Tool Version') {
           steps {
             sh '''mvn --version
-git --version
-java -version'''
+                  git --version
+                  java -version'''
           }
         }
 
@@ -20,9 +20,21 @@ java -version'''
       }
     }
 
-    stage('Maven Clean') {
+    stage('Maven Test') {
+          steps {
+            sh 'mvn test'
+          }
+        }
+
+    stage('Integration testing'){
+        steps {
+            sh 'mvn verify -DskipUnitTests'
+          }
+        }
+
+    stage('Maven Build Project') {
       steps {
-        sh 'mvn clean'
+        sh 'mvn clean install'
       }
     }
 
@@ -32,9 +44,13 @@ java -version'''
       }
     }
 
-    stage('Maven Test') {
-      steps {
-        sh 'mvn sonar:sonar'
+    stage('Static code Analysis'){
+      steps{
+          script{
+               withSonarQubeEnv(credentialsId: 'sonar-api'){
+                     sh 'mvn clean package sonar:sonar'
+            }
+          }
       }
     }
 
