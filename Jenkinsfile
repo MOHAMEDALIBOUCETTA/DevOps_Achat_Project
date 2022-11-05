@@ -54,13 +54,6 @@ pipeline {
       }
     }
 
-
-    stage('Post Build Steps') {
-      steps {
-        writeFile(file: 'status.txt', text: 'Hey it worked!!!')
-      }
-    }
-
     stage('Quality Gate status'){
         steps{
             script{
@@ -68,6 +61,14 @@ pipeline {
             }
         }
     }
+
+
+    stage('Post Build Steps') {
+      steps {
+        writeFile(file: 'status.txt', text: 'Hey it worked!!!')
+      }
+    }
+
 
   }
 }
