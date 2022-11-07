@@ -100,7 +100,7 @@
 		<repository>
 			<id>nexus</id>
 			<name>Nexus Staging Repo</name>
-			<url>http://192.168.56.111:8081/nexus/content/repositories/snapshots</url>
+			<url>http://192.168.56.111:8081/repository/demoapp-release/</url>
 		</repository>
 	</distributionManagement>
 

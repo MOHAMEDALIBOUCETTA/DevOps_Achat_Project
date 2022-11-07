@@ -73,7 +73,7 @@ pipeline {
                           type: 'jar'
                           ]
                  ],
-                 credentialsId: 'nexus-auth',
+                 credentialsId: 'nexus-auth0',
                  groupId: 'tn.esprit.rh',
                  nexusUrl: '192.168.56.111:8081',
                  nexusVersion: 'nexus3',
