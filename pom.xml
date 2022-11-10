@@ -117,7 +117,7 @@
 							<goal>repackage</goal>
 						</goals>
 						<configuration>
-							<finalName>achat-1.0</finalName>
+							<finalName>Uber</finalName>
 						</configuration>
 					</execution>
 				</executions>
@@ -147,7 +147,7 @@
 			</plugin>
 
 		</plugins>
-		<finalName>achat-1.0</finalName>
+
 	</build>
 
 </project>
