@@ -1,3 +1,10 @@
-FROM openjdk:11
-COPY target/achat-1.0.jar achat-1.0.jar
-ENTRYPOINT ["java","-jar","/achat-1.0.jar"]
+FROM maven as build
+WORKDIR /app
+COPY . .
+RUN mvn install
+
+FROM openjdk:11.0
+WORKDIR /app
+COPY --from=build /app/target/Uber.jar /app/
+EXPOSE 9090
+CMD [ "java","-jar","Uber.jar" ]
