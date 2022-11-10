@@ -88,8 +88,8 @@ pipeline {
     stage('Docker Image Build'){
         steps{
             script{
-                sh 'docker image build -t $JOB_NAME:v1.$BUILD_ID'
-                sh 'docker image tag $JOB_NAME:v1.$BUILD_ID dali099/$JOB_NAME:v1.$BUILD'
+                sh 'docker image build -t $JOB_NAME:v1.$BUILD_ID .'
+                sh 'docker image tag $JOB_NAME:v1.$BUILD_ID dali099/$JOB_NAME:v1.$BUILD_ID'
                 sh 'docker image tag $JOB_NAME:v1.$BUILD_ID dali099/$JOB_NAME:latest'
             }
         }
@@ -100,7 +100,7 @@ pipeline {
             script{
                 withCredentials([string(credentialsId: 'git_creds', variable: 'docker_hub_cred')]) {
                     sh 'docker login -u dali099 -p ${docker_hub_cred}'
-                    sh 'docker image push dali099/$JOB_NAME:v1.$BUILD'
+                    sh 'docker image push dali099/$JOB_NAME:v1.$BUILD_ID'
                     sh 'docker image push dali099/$JOB_NAME:latest'
                 }
             }
