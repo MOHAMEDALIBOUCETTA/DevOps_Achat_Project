@@ -117,7 +117,7 @@
 							<goal>repackage</goal>
 						</goals>
 						<configuration>
-							<finalName>Uber</finalName>
+							<finalName>uber</finalName>
 						</configuration>
 					</execution>
 				</executions>
