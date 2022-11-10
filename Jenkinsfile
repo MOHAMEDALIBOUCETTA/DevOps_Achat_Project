@@ -70,7 +70,7 @@ pipeline {
                  [
                     [
                         artifactId: 'achat',
-                         classifier: '', file: 'target/Uber.jar',
+                         classifier: '', file: 'target/achat.jar',
                           type: 'jar'
                           ]
                  ],
