@@ -1,10 +1,6 @@
-FROM maven as build
-WORKDIR /app
-COPY . .
-RUN mvn install
 
-FROM openjdk:11.0
-WORKDIR /app
-COPY --from=build /app/target/Uber.jar /app/
-EXPOSE 9090
-CMD [ "java","-jar","Uber.jar" ]
+
+FROM openjdk:8-jdk-alpine
+EXPOSE 8080
+ADD target/Uber.jar Uber.jar
+ENTRYPOINT ["java","-jar","/Uber.jar"]
