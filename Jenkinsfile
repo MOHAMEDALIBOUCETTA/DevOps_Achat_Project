@@ -1,5 +1,8 @@
 pipeline {
   agent any
+  environment {
+  	DOCKERHUB_CREDENTIALS = credentials('dali099_dockerhub')
+  }
   stages {
     stage('Log Tool Version') {
       parallel {
