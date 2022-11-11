@@ -103,7 +103,6 @@ pipeline {
 
                     sh 'docker login -u dali099 -p ${docker_hub_cred}'
                     sh 'docker tag $JOB_NAME:v1.$BUILD_ID dali099/$JOB_NAME:v1.$BUILD_ID'
-                    sh 'docker image push dali099/$JOB_NAME:v1.$BUILD_ID '
                     sh 'docker image push dali099/$JOB_NAME:latest'
                 }
             }
