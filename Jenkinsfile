@@ -21,16 +21,16 @@ pipeline {
     }
 
     stage('Maven Test') {
-          steps {
-            sh 'mvn test'
-          }
-        }
+      steps {
+        sh 'mvn test'
+      }
+    }
 
-    stage('Integration testing'){
-        steps {
-            sh 'mvn verify -DskipUnitTests'
-          }
-        }
+    stage('Integration testing') {
+      steps {
+        sh 'mvn verify -DskipUnitTests'
+      }
+    }
 
     stage('Maven Build Project') {
       steps {
@@ -44,79 +44,80 @@ pipeline {
       }
     }
 
-    stage('Static code Analysis'){
-      steps{
-          script{
+    stage('Static code Analysis') {
+      steps {
+        script {
           withSonarQubeEnv(credentialsId: 'sonar-apikey') {
-              sh 'mvn clean package sonar:sonar'
-            }
+            sh 'mvn clean package sonar:sonar'
           }
+        }
+
       }
     }
 
-    stage('Quality Gate status'){
-        steps{
-            script{
-                waitForQualityGate abortPipeline: false, credentialsId: 'sonar-apikey'
-            }
+    stage('Quality Gate status') {
+      steps {
+        script {
+          waitForQualityGate abortPipeline: false, credentialsId: 'sonar-apikey'
         }
+
+      }
     }
 
-    stage('Upload war file to Nexus'){
-        steps{
-            script{
-
-                nexusArtifactUploader artifacts:
-                 [
-                    [
-                        artifactId: 'achat',
-                         classifier: '', file: 'target/Uber.jar',
-                          type: 'jar'
-                          ]
-                 ],
-                 credentialsId: 'nexus-auth0',
-                 groupId: 'tn.esprit.rh',
-                 nexusUrl: '192.168.56.111:8081',
-                 nexusVersion: 'nexus3',
-                 protocol: 'http',
-                 repository: 'demoapp-release',
-                 version: '1.0'
-            }
+    stage('Upload war file to Nexus') {
+      steps {
+        script {
+          nexusArtifactUploader artifacts:
+          [
+            [
+              artifactId: 'achat',
+              classifier: '', file: 'target/Uber.jar',
+              type: 'jar'
+            ]
+          ],
+          credentialsId: 'nexus-auth0',
+          groupId: 'tn.esprit.rh',
+          nexusUrl: '192.168.56.111:8081',
+          nexusVersion: 'nexus3',
+          protocol: 'http',
+          repository: 'demoapp-release',
+          version: '1.0'
         }
+
+      }
     }
 
-    stage('Docker Image Build'){
-        steps{
-            script{
-                //sh 'docker build -t dali099/Uber .'
-                sh 'docker image build -t $JOB_NAME:v1.$BUILD_ID .'
-                sh 'docker tag $JOB_NAME:v1.$BUILD_ID dali099/$JOB_NAME:v1.$BUILD_ID'
-                sh 'docker tag $JOB_NAME:v1.$BUILD_ID dali099/$JOB_NAME:latest'
-            }
+    stage('Docker Image Build') {
+      steps {
+        script {
+          sh 'docker image build -t $JOB_NAME:v1.$BUILD_ID .'
+          sh 'docker tag $JOB_NAME:v1.$BUILD_ID dali099/$JOB_NAME:v1.$BUILD_ID'
+          sh 'docker tag $JOB_NAME:v1.$BUILD_ID dali099/$JOB_NAME:latest'
         }
+
+      }
     }
 
-    stage('Push Image to Docker Hb'){
-        steps{
-            script{
-                withCredentials([string(credentialsId: 'git_cred', variable: 'docker_hub_cred')]) {
+    stage('Push Image to Docker Hb') {
+      steps {
+        script {
+          withCredentials([string(credentialsId: 'git_cred', variable: 'docker_hub_cred')]) {
 
-                    sh 'docker login -u dali099 -p ${docker_hub_cred}'
-                    sh 'docker tag $JOB_NAME:v1.$BUILD_ID dali099/$JOB_NAME:v1.$BUILD_ID'
-                    sh 'docker push dali099/$JOB_NAME:v1.$BUILD_ID'
-                    sh 'docker push dali099/$JOB_NAME:latest'
-                }
-            }
+            sh 'docker login -u dali099 -p ${docker_hub_cred}'
+            sh 'docker tag $JOB_NAME:v1.$BUILD_ID dali099/$JOB_NAME:v1.$BUILD_ID'
+            sh 'docker push dali099/$JOB_NAME:v1.$BUILD_ID'
+            sh 'docker push dali099/$JOB_NAME:latest'
+          }
         }
-    }
 
+      }
+    }
 
     stage('Post Build Steps') {
       steps {
         writeFile(file: 'status.txt', text: 'Hey it worked!!!')
       }
     }
-
 
   }
 }
