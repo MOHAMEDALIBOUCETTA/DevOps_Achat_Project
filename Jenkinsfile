@@ -99,16 +99,16 @@ pipeline {
         }
     }
 
+    stage('Login'){
+        sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+    }
+
     stage('Push Image to Docker Hb'){
         steps{
-            script{
-                withCredentials([string(credentialsId: 'dockerHub_passwd', variable: 'docker_hub_cred')]) {
-
                     sh 'docker login -u dali099 -p ${docker_hub_cred}'
                     sh 'docker image push dali099/$JOB_NAME:v1.$BUILD_ID '
                     sh 'docker image push dali099/$JOB_NAME:latest'
-                }
-            }
+
         }
     }
 
