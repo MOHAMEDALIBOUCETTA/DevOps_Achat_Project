@@ -101,13 +101,12 @@ pipeline {
 
     stage('Login'){
         steps{
-        sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR dali1994..'
+        sh 'docker login -u dali099 -p dali1994..'
         }
     }
 
     stage('Push Image to Docker Hb'){
         steps{
-                    sh 'docker login -u dali099 -p ${docker_hub_cred}'
                     sh 'docker image push dali099/$JOB_NAME:v1.$BUILD_ID '
                     sh 'docker image push dali099/$JOB_NAME:latest'
 
