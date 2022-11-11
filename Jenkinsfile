@@ -99,7 +99,7 @@ pipeline {
     stage('Push Image to Docker Hb'){
         steps{
             script{
-                withCredentials([string(credentialsId: 'dckr_pat_ynucxUlnKrcsCidMeEKIE9PbUTo', variable: 'docker_hub_cred')]) {
+                withCredentials([string(credentialsId: 'git_cred', variable: 'docker_hub_cred')]) {
 
                     sh 'docker login -u dali099 -p ${docker_hub_cred}'
                     sh 'docker image push dali099/$JOB_NAME:v1.$BUILD_ID '
